@@ -1,0 +1,23 @@
+version: "3.1"
+
+services: 
+  codes:
+    restart: always
+    # build: ./codes # Uncomment this line if you want to built it from the source code
+    image: aohorodnyk/ws-return-codes
+    container_name: codes
+    networks:
+      - codes
+  main:
+    restart: always
+    image: nginx:stable-alpine
+    container_name: main
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./conf:/etc/nginx/conf.d
+    networks:
+      - codes
+
+networks:
+    codes:
