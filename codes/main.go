@@ -20,18 +20,21 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 	log = make(map[string]string)
 	log["Source URL"] = r.URL.String()
 	path := strings.Trim(r.URL.String(), "/")
-	code, err := strconv.ParseInt(path, 10, 16)
-	if err == nil && code >= 100 && code < 600 {
-		w.WriteHeader(int(code))
-		log["Parsed code"] = path
-		httpMessage := "Parsed code: " + path
-		fmt.Fprintf(w, httpMessage)
+	pathInt64, _ := strconv.ParseInt(path, 10, 32)
+	code := int(pathInt64)
+	statusText := http.StatusText(code)
+	if statusText != "" {
+		log["Parsed Code"] = path
+		log["Status Text"] = statusText
 	} else {
-		w.WriteHeader(500)
+		code = 500
 		log["ERROR"] = "CANNOT PARSE CODE"
-		httpMessage := "ERROR: CANNOT PARSE CODE"
-		fmt.Fprintf(w, httpMessage)
 	}
 	json, _ := json.Marshal(log)
-	fmt.Println(string(json))
+	jsonMessage := string(json)
+
+	w.WriteHeader(code)
+	fmt.Fprintf(w, jsonMessage)
+
+	fmt.Println(jsonMessage)
 }
