@@ -8,12 +8,12 @@ services:
     container_name: codes
     networks:
       - codes
-  main:
+  nginx:
     restart: always
     image: nginx:stable-alpine
-    container_name: main
+    container_name: nginx
     ports:
-      - "127.0.0.1:80:80"
+      - "127.0.0.1:8080:80"
     volumes:
       - ./conf:/etc/nginx/conf.d
     networks:
