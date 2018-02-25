@@ -19,12 +19,12 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 	var log map[string]string
 	log = make(map[string]string)
 	log["Source URL"] = r.URL.String()
-	codeString := strings.Trim(r.URL.String(), "/")
-	codeInt, err := strconv.ParseInt(codeString, 10, 16)
-	if err == nil {
-		w.WriteHeader(int(codeInt))
-		log["Parsed code"] = codeString
-		httpMessage := "Parsed code: " + codeString
+	path := strings.Trim(r.URL.String(), "/")
+	code, err := strconv.ParseInt(path, 10, 16)
+	if err == nil && code >= 100 && code < 600 {
+		w.WriteHeader(int(code))
+		log["Parsed code"] = path
+		httpMessage := "Parsed code: " + path
 		fmt.Fprintf(w, httpMessage)
 	} else {
 		w.WriteHeader(500)
