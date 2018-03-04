@@ -36,4 +36,4 @@ For example was set three codes (403, 404, 503) by default in the `error_page 40
 After finished changes, you have to save file and restart `docker-compose up`.
 
 ### Restrictions
-* Application codes supporting only valid codes in other cases you'll get 500 response with the error message.
+* Application codes supporting only valid codes in other cases you'll get 500 response code with the error message.
