@@ -8,6 +8,14 @@ services:
     container_name: codes
     networks:
       - codes
+  codes-php:
+    restart: always
+    image: php:7.2-fpm-alpine
+    container_name: codes-php
+    volumes:
+      - ./codes-php:/var/www/html
+    networks:
+      - codes
   nginx:
     restart: always
     image: nginx:stable-alpine
